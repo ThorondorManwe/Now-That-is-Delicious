@@ -14,7 +14,8 @@ exports.addStore = (req, res) => {
 
 exports.createStore = async (req, res) => {
     console.log(req.body);
-    const store = new Store(req.body);
-    await store.save();       // se mueve a la siguiente línea hata que funciona con await es async
-    res.redirect('/');
+    const store = await (new Store(req.body)).save();
+    //await store.save();       // se mueve a la siguiente línea hata que funciona con await es async
+    req.flash('success', `Successfully Created ${store.name}. Care to leave a review?`);
+    res.redirect(`/store/${store.slug}`);
 };
